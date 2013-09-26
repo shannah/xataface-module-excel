@@ -46,4 +46,4 @@ Direct support questions to the Xataface forum http://xataface.com/forum
 ## Credits
 
 - Module written by Steve Hannah.
-- Uses the fantastic (PHPExcel)[https://github.com/PHPOffice/PHPExcel/] library for handling/writing excel files.
+- Uses the fantastic [PHPExcel](https://github.com/PHPOffice/PHPExcel/) library for handling/writing excel files.
