@@ -81,6 +81,7 @@ class actions_excel_export_xls extends dataface_actions_export_csv {
             header ('Pragma: public'); // HTTP/1.0
 
             $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
+            $objWriter->setPreCalculateFormulas(false);
             $objWriter->save('php://output');
             exit;
             
