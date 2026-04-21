@@ -10,7 +10,6 @@
         "phpoffice/phpspreadsheet": "Required on PHP >= 8.0; recommended on PHP >= 7.2. The bundled lib/PHPExcel is used only when PhpSpreadsheet is unavailable."
     },
     "require-dev": {
-        "php-parallel-lint/php-parallel-lint": "^1.3",
-        "phpstan/phpstan": "^1.10"
+        "php-parallel-lint/php-parallel-lint": "^1.3"
     }
 }
