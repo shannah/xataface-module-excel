@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - 'claude/**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: PHP ${{ matrix.php }} lint
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['5.6', '7.4', '8.0', '8.1', '8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      # lib/PHPExcel is intentionally excluded: it's a vendored copy of the
+      # discontinued PHPExcel 1.7.9 with curly-brace string offsets and
+      # other syntax that does not parse on PHP 8. It is only loaded at
+      # runtime on PHP < 8 as the fallback backend; on PHP 8 the module
+      # requires PhpSpreadsheet instead.
+      - name: Parallel lint (module sources)
+        run: vendor/bin/parallel-lint --exclude vendor --exclude lib/PHPExcel .
