@@ -10,7 +10,7 @@
  *
  * Supports two backends:
  *   - PhpSpreadsheet (preferred, requires PHP 7.2+).
- *   - Bundled PHPExcel 1.7.9 under lib/ (legacy fallback, PHP 5.6 – 7.1).
+ *   - Bundled PHPExcel 1.7.9 under lib/ (legacy fallback, PHP 5.6 - 7.1).
  *
  * On PHP 8+ without PhpSpreadsheet installed, construction fails fast
  * with an actionable error message, because the bundled PHPExcel is not
@@ -111,26 +111,26 @@ class actions_excel_export_xls extends dataface_actions_export_csv {
         // so the binary XLS stream is sent directly to the client.
         while ( @ob_end_clean() );
 
-        // Redirect output to a client’s web browser (Excel5/Xls)
-        header(‘Content-Type: application/vnd.ms-excel’);
-        header(‘Content-Disposition: attachment;filename="’.$query[‘-table’].’_results_’.date(‘Y_m_d_H_i_s’).’.xls"’);
-        header(‘Cache-Control: max-age=0’);
-        // If you’re serving to IE 9, then the following may be needed
-        header(‘Cache-Control: max-age=1’);
+        // Redirect output to a client's web browser (Excel5/Xls)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$query['-table'].'_results_'.date('Y_m_d_H_i_s').'.xls"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
 
-        // If you’re serving to IE over SSL, then the following may be needed
-        header (‘Expires: Mon, 26 Jul 1997 05:00:00 GMT’); // Date in the past
-        header (‘Last-Modified: ‘.gmdate(‘D, d M Y H:i:s’).’ GMT’); // always modified
-        header (‘Cache-Control: cache, must-revalidate’); // HTTP/1.1
-        header (‘Pragma: public’); // HTTP/1.0
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
 
         if ($this->backend === self::BACKEND_PHPSPREADSHEET) {
-            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->book, ‘Xls’);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->book, 'Xls');
         } else {
-            $writer = PHPExcel_IOFactory::createWriter($this->book, ‘Excel5’);
+            $writer = PHPExcel_IOFactory::createWriter($this->book, 'Excel5');
         }
         $writer->setPreCalculateFormulas(false);
-        $writer->save(‘php://output’);
+        $writer->save('php://output');
         exit;
     }
 
