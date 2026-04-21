@@ -107,26 +107,30 @@ class actions_excel_export_xls extends dataface_actions_export_csv {
     }
 
     function writeOutput($fh, $query){
-        // Redirect output to a client’s web browser (Excel5/Xls)
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'.$query['-table'].'_results_'.date('Y_m_d_H_i_s').'.xls"');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
+        // Clear any output buffers that Xataface may have started,
+        // so the binary XLS stream is sent directly to the client.
+        while ( @ob_end_clean() );
 
-        // If you're serving to IE over SSL, then the following may be needed
-        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header ('Pragma: public'); // HTTP/1.0
+        // Redirect output to a client’s web browser (Excel5/Xls)
+        header(‘Content-Type: application/vnd.ms-excel’);
+        header(‘Content-Disposition: attachment;filename="’.$query[‘-table’].’_results_’.date(‘Y_m_d_H_i_s’).’.xls"’);
+        header(‘Cache-Control: max-age=0’);
+        // If you’re serving to IE 9, then the following may be needed
+        header(‘Cache-Control: max-age=1’);
+
+        // If you’re serving to IE over SSL, then the following may be needed
+        header (‘Expires: Mon, 26 Jul 1997 05:00:00 GMT’); // Date in the past
+        header (‘Last-Modified: ‘.gmdate(‘D, d M Y H:i:s’).’ GMT’); // always modified
+        header (‘Cache-Control: cache, must-revalidate’); // HTTP/1.1
+        header (‘Pragma: public’); // HTTP/1.0
 
         if ($this->backend === self::BACKEND_PHPSPREADSHEET) {
-            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->book, 'Xls');
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->book, ‘Xls’);
         } else {
-            $writer = PHPExcel_IOFactory::createWriter($this->book, 'Excel5');
+            $writer = PHPExcel_IOFactory::createWriter($this->book, ‘Excel5’);
         }
         $writer->setPreCalculateFormulas(false);
-        $writer->save('php://output');
+        $writer->save(‘php://output’);
         exit;
     }
 
