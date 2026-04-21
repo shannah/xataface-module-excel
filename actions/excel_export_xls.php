@@ -85,6 +85,9 @@ class actions_excel_export_xls extends dataface_actions_export_csv {
         if (class_exists('Dataface_AuthenticationTool')) {
             $author = Dataface_AuthenticationTool::getInstance()->getLoggedInUsername();
         }
+        if ($author === null) {
+            $author = '';
+        }
 
         if ($this->backend === self::BACKEND_PHPSPREADSHEET) {
             $this->book = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
