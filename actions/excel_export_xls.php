@@ -40,9 +40,14 @@ class actions_excel_export_xls extends dataface_actions_export_csv {
             import('modules/excel/lib/PHPExcel.php');
             $this->backend = self::BACKEND_PHPEXCEL;
         } else {
+            $moduleDir = dirname(__DIR__);
             throw new Exception(
-                'xataface-module-excel on PHP >= 8.0 requires phpoffice/phpspreadsheet. '
-                . 'Install it in your application with: composer require phpoffice/phpspreadsheet'
+                "The Xataface Excel module requires the PhpSpreadsheet library on PHP 8+.\n"
+                . "The bundled PHPExcel library is not compatible with PHP 8.\n\n"
+                . "To fix this, run:\n"
+                . "  cd " . $moduleDir . "\n"
+                . "  composer require phpoffice/phpspreadsheet\n\n"
+                . "See the module README for details."
             );
         }
     }
